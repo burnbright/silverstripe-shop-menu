@@ -2,7 +2,21 @@
 
 class MenuPage extends Page{
 
+	private static $has_one = array(
+		'Menu' => 'Menu'
+	);
 
+	public function getCMSFields() {
+		$fields = parent::getCMSFields();
+		$fields->addFieldToTab("Root.Main",
+			DropdownField::create("MenuID", "Menu",
+				Menu::get()->map()->toArray()
+			),
+			"Content"
+		);
+
+		return $fields;
+	}
 
 }
 
@@ -15,6 +29,10 @@ class MenuPage_Controller extends Page_Controller{
 	);
 
 	public function getProductMenu() {
+		if($this->dataRecord->Menu()->exists()){
+			return $this->dataRecord->Menu();
+		}
+
 		return Menu::get()->first();
 	}
 
@@ -34,8 +52,6 @@ class MenuPage_Controller extends Page_Controller{
 		);
 		$form = new Form($this, "Form", $fields, $actions);
 
-		//TODO: load data from cart
-
 		return $form;
 	}
 
@@ -45,9 +61,10 @@ class MenuPage_Controller extends Page_Controller{
 		$selectionsfield = $form->Fields()->fieldByName("Selections");
 		$totalqty = $selectionsfield->getSumQuantities();
 
-		if($totalqty < $this->minpeople){
-			$form->addErrorMessage("NumberOfPeople", "Please select a quantity greater than ".$this->minpeople);
-		}
+/*		if($totalqty < $this->minpeople){
+			$form->addErrorMessage("NumberOfPeople", "Please select a quantity greater than ".$this->minpeople, "bad");
+			return $this->redirectBack();
+		}*/
 		
 		//add quantities of selected products
 		$quantities = $selectionsfield->getQuantities();

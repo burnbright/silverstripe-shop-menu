@@ -32,6 +32,7 @@ class Menu_GroupedList extends SS_ListDecorator {
 
 			//convert index relation objects to ID
 			if($key instanceof DataObject){
+
 				$this->groupobjects[$key->ID] = $key;
 				$key = $key->ID;
 			}
@@ -58,10 +59,12 @@ class Menu_GroupedList extends SS_ListDecorator {
 		$grouped = $this->groupBy($index);
 		$result  = new ArrayList();
 		foreach ($grouped as $indVal => $list) {
-			$list = GroupedList::create($list);
+			$list = Menu_GroupedList::create($list);
 			//convert indVal from ID to DataObject, if appropriate
 			if(!empty($this->groupobjects) && isset($this->groupobjects[$indVal])){
 				$indVal = $this->groupobjects[$indVal];
+
+
 			}
 			$result->push(new ArrayData(array(
 				$index    => $indVal,

@@ -10,3 +10,7 @@ Product_OrderItem:
 Product:
   extensions:
     - MenuProductExtension
+
+Order:
+  extensions:
+    - MenuOrderExtension
