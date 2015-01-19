@@ -1,0 +1,12 @@
+---
+Name: shopmenuconfig
+After: framework/routes#coreroutes
+---
+Product_OrderItem:
+  extensions:
+    - MenuOrderItemExtension
+  required_fields:
+    - MenuProductSelectionID
+Product:
+  extensions:
+    - MenuProductExtension
