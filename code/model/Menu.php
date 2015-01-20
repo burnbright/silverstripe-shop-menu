@@ -56,10 +56,10 @@ class Menu extends DataObject{
 	 			->setDisplayFields($summaryfields);
 
  			//re-add edit/delete row actions so they are in the correct order
- 			$conf->removeComponentsByType("GridFieldEditButton");
- 			$conf->removeComponentsByType("GridFieldDeleteAction");
-			$conf->addComponent(new GridFieldEditButton());
-			$conf->addComponent(new GridFieldDeleteAction());
+ 			$conf->removeComponentsByType("GridFieldEditButton")
+ 				->removeComponentsByType("GridFieldDeleteAction")
+				->addComponent(new GridFieldEditButton())
+				->addComponent(new GridFieldDeleteAction());
  		}
 
  		if ($grid = $fields->fieldByName("Root.Groups.Groups")){
