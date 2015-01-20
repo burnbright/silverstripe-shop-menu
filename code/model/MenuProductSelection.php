@@ -24,14 +24,19 @@ class MenuProductSelection extends DataObject{
 
 	private static $default_sort = "Sort ASC";
 
-	public function getCMSFields() {
+	public function getCMSFields($params = array()) {
 		$fields = new FieldList(
 			DropdownField::create("ProductID", "Product",
 				Product::get()->map()->toArray()	
 			)->setHasEmptyDefault(true)
 		);
 
-		if($this->Menu()->exists()){
+		$menu = $this->Menu();
+		if(!$menu->exists()){
+			$menu = isset($params["MenuID"]) ? Menu::get()->byID((int)$params["MenuID"]) : null;
+		}
+
+		if($menu && $menu->exists()){
 			$fields->push(
 				DropdownField::create("GroupID", 'Menu Group', 
 					MenuGroup::get()

@@ -28,18 +28,28 @@ class Menu extends DataObject{
 
  			$summaryfields = MenuProductSelection::config()->summary_fields;
 			unset($summaryfields['Group']);
-			
+
 			//add editable group column to grid
 			$groups = $this->Groups();
  			if($groups->exists()){
+ 				$dropdown = DropdownField::create("GroupID", 'Grouping', 
+					$groups->map('ID', 'Title')->toArray()
+				)->setHasEmptyDefault(true);
 	 			$summaryfields['GroupID']  = array(
 	 				'title' => 'Group',
-					'callback' => function($record, $column, $grid) use ($groups){
-						return DropdownField::create($column, 'MenuGroup', 
-							$groups->map('ID', 'Title')->toArray()
-						)->setHasEmptyDefault(true);
+					'callback' => function($record, $column, $grid) use ($dropdown){
+						return $dropdown;
 					}
 				);
+		 		$conf->getComponentByType('GridFieldDetailForm')
+					->setItemEditFormCallback(function($form, $component) use ($dropdown){
+						$fields = $form->Fields();
+						if(!$fields->fieldByName("GroupID")){
+							$fields->push(
+								$dropdown
+							);
+						}
+					});
 	 		}
 
 	 		$conf->getComponentByType('GridFieldEditableColumns')
