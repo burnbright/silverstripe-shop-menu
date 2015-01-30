@@ -46,6 +46,14 @@ class MenuProductSelection extends DataObject{
 			);
 		}
 
+		if(!$this->Product()->canPurchase()) {
+			$fields->push(
+				LiteralField::create("purchasenote",
+					"<p class=\"message warning\">This product can't be purchased, so it won't show up in menus</p>"
+				)
+			);
+		}
+
 		return $fields;
 	}
 

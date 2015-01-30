@@ -38,7 +38,13 @@ class MenuPage_Controller extends Page_Controller{
 
 	public function Form() {
 		$menu = $this->getProductMenu();
- 		$gselections = new Menu_GroupedList($menu->ProductSelections());
+		$selections = new ArrayList();
+		foreach($menu->ProductSelections() as $mps){
+			if($mps->Product()->exists() && $mps->Product()->canPurchase()) {
+				$selections->push($mps);
+			}
+		}
+ 		$gselections = new Menu_GroupedList($selections);
 		$fields = new FieldList(
 			NumericField::create("NumberOfPeople", "Number of people")
 				->setValue($this->minpeople)
