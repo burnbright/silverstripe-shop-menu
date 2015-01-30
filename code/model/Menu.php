@@ -45,9 +45,7 @@ class Menu extends DataObject{
 					->setItemEditFormCallback(function($form, $component) use ($dropdown){
 						$fields = $form->Fields();
 						if(!$fields->fieldByName("GroupID")){
-							$fields->push(
-								$dropdown
-							);
+							$fields->push($dropdown);
 						}
 					});
 	 		}

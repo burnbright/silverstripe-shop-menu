@@ -61,7 +61,7 @@ class MenuPage_Controller extends Page_Controller{
 		return $form;
 	}
 
-	//validate menu count is accurate
+	//TODO: validate menu count is accurate
 
 	public function save($data, $form) {
 		$selectionsfield = $form->Fields()->fieldByName("Selections");
