@@ -71,12 +71,13 @@ class MenuProductSelection extends DataObject{
 	 */
 	public function validate() {
 		$result =  parent::validate();
-		if(!$this->Product()->exists()){
+		if(!$this->ProductID){
 			$result->error("Selection must have a product.");
 		}
 		if($this->isInDB() && !$this->Menu()->exists()){
 			$result->error("Selection must be assigned to a menu.");
 		}
+
 		return $result;
 	}
 	
