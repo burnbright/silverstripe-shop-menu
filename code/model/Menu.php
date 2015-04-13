@@ -13,9 +13,21 @@ class Menu extends DataObject{
  		'Groups' => 'MenuGroup'
  	);
 
+ 	private static $summary_fields = array(
+ 		'Title',
+ 		'StartDate.Nice'
+ 	);
+
+ 	private static $field_labels = array(
+ 		'StartDate.Nice' => 'Start Date'
+ 	);
+
  	public function getCMSFields() {
  		$fields = parent::getCMSFields();
  		if ($grid = $fields->fieldByName("Root.ProductSelections.ProductSelections")){
+ 			//move field to main tab
+ 			$fields->removeByName("ProductSelections");
+ 			$fields->addFieldToTab("Root.Main", $grid);
 
  			$grid->setConfig($conf = new GridFieldConfig_RecordEditor());
  			$conf->removeComponentsByType("GridFieldDataColumns")
@@ -57,7 +69,24 @@ class Menu extends DataObject{
  			$conf->removeComponentsByType("GridFieldEditButton")
  				->removeComponentsByType("GridFieldDeleteAction")
 				->addComponent(new GridFieldEditButton())
-				->addComponent(new GridFieldDeleteAction());
+				->addComponent(new GridFieldDeleteAction())
+				->addComponent($importer = new GridFieldImporter('before'));
+
+			$loader = $importer->getLoader($grid);
+			$self = $this;
+			$loader->transforms = array(
+				"Product.Title" => array(
+					"create" => false,
+					"link" => true,
+					"required" => true
+				),
+				"Group.Title" => array(
+					'list' => $this->Groups()
+				)
+			);
+			$loader->duplicateChecks = array(
+				"Product.Title" => "Product.Title"
+			);
  		}
 
  		if ($grid = $fields->fieldByName("Root.Groups.Groups")){
@@ -81,7 +110,7 @@ class Menu extends DataObject{
 						}
 					));
 
-			 //re-add edit/delete row actions so they are in the correct order
+			//re-add edit/delete row actions so they are in the correct order
  			$conf->removeComponentsByType("GridFieldEditButton")
  				->removeComponentsByType("GridFieldDeleteAction")
 				->addComponent(new GridFieldDeleteAction());

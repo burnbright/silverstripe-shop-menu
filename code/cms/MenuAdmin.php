@@ -16,4 +16,22 @@ class MenuAdmin	extends ModelAdmin{
 		)
 	);
 
+	public function getEditForm($id = null, $fields = null){
+		$form = parent::getEditForm($id, $fields);
+		$gridField = $form->Fields()->fieldByName('Menu');
+		$importer = $gridField->getConfig()
+			->getComponentByType('GridFieldImporter');
+		$loader  = $importer->getLoader($gridField);
+		$loader->transforms = array(
+			'Title' => array(
+				'required' => true
+			)
+		);
+		$loader->duplicateChecks = array(
+			'Title'
+		);
+
+		return $form;
+	}
+
 }

@@ -13,6 +13,7 @@
 		"installer-name": "shop_menu"
 	},
 	"require": {
-		"burnbright/silverstripe-shop": "*"
+		"burnbright/silverstripe-shop": "*",
+		"burnbright/silverstripe-importexport": "*"
 	}
 }
