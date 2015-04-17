@@ -22,6 +22,10 @@ class MenuProductSelection extends DataObject{
 		'Product.Price' => 'Price'
 	);
 
+	private static $casting = array(
+		'Price' => 'Currency'
+	);
+
 	private static $default_sort = "Sort ASC";
 
 	public function getCMSFields($params = array()) {
@@ -63,6 +67,10 @@ class MenuProductSelection extends DataObject{
 	 */
 	public function Title() {
 		return $this->Product()->Title;
+	}
+
+	public function Price() {
+		return $this->Product()->Price;
 	}
 
 	/**
