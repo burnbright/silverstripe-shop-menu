@@ -46,9 +46,6 @@ class MenuPage_Controller extends Page_Controller{
 		}
  		$gselections = new Menu_GroupedList($selections);
 		$fields = new FieldList(
-			NumericField::create("NumberOfPeople", "Number of people")
-				->setValue($this->minpeople)
-				->setDescription("(Minimum is 5)"),
 			QuantitiesSelectionField::create(
 				"Selections", $menu->Title, $gselections
 			)
@@ -66,11 +63,6 @@ class MenuPage_Controller extends Page_Controller{
 	public function save($data, $form) {
 		$selectionsfield = $form->Fields()->fieldByName("Selections");
 		$totalqty = $selectionsfield->getSumQuantities();
-
-/*		if($totalqty < $this->minpeople){
-			$form->addErrorMessage("NumberOfPeople", "Please select a quantity greater than ".$this->minpeople, "bad");
-			return $this->redirectBack();
-		}*/
 		
 		//add quantities of selected products
 		$quantities = $selectionsfield->getQuantities();
