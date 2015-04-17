@@ -1,6 +1,8 @@
 <?php
 
-//similar to multiselect ListboxField, but 
+/**
+ * Select multiple quantities in a list
+ */
 class QuantitiesSelectionField extends FormField{
 	
 	protected $list;
