@@ -51,7 +51,7 @@ class MenuPage_Controller extends Page_Controller{
  		$gselections = new Menu_GroupedList($selections);
 		$fields = new FieldList(
 			QuantitiesSelectionField::create(
-				"Selections", $menu->Title, $gselections
+				"Selections", "", $gselections
 			)
 		);
 		$actions = new FieldList(
