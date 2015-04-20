@@ -44,6 +44,10 @@ class MenuPage_Controller extends Page_Controller{
 				$selections->push($mps);
 			}
 		}
+		if(!$selections->exists()){
+			return;
+		}
+
  		$gselections = new Menu_GroupedList($selections);
 		$fields = new FieldList(
 			QuantitiesSelectionField::create(
