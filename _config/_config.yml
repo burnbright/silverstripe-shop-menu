@@ -6,7 +6,7 @@ Product_OrderItem:
   extensions:
     - MenuOrderItemExtension
   required_fields:
-    - MenuProductSelectionID
+    - MenuProductSelection
 Product:
   extensions:
     - MenuProductExtension
