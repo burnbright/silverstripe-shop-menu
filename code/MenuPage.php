@@ -58,6 +58,7 @@ class MenuPage_Controller extends Page_Controller{
 			new FormAction("save", _t("MenuPage.SAVE","Save"))
 		);
 		$form = new Form($this, "Form", $fields, $actions);
+		$this->dataRecord->extend("updateMenuSelectionForm", $form);
 
 		return $form;
 	}
@@ -67,7 +68,6 @@ class MenuPage_Controller extends Page_Controller{
 	public function save($data, $form) {
 		$selectionsfield = $form->Fields()->fieldByName("Selections");
 		$totalqty = $selectionsfield->getSumQuantities();
-		
 		//add quantities of selected products
 		$quantities = $selectionsfield->getQuantities();
 		$selectables = $this->getProductMenu()->ProductSelections();
@@ -75,8 +75,11 @@ class MenuPage_Controller extends Page_Controller{
 			$selection = $selectables->byID($id);
 			if($selection && $buyable = $selection->Product()){
 				//restrict order item to given selection
-				$filter = array("MenuProductSelectionID" => $selection->ID);
-				$item = ShoppingCart::singleton()->setQuantity($buyable, $quantity, $filter);
+				$filter = array(
+					"MenuProductSelectionID" => $selection->ID
+				);
+				$item = ShoppingCart::singleton()
+							->setQuantity($buyable, $quantity, $filter);
 				if(!$item){
 					//TODO: errors
 					//ShoppingCart::singleton()->getMessage();
