@@ -6,6 +6,8 @@ class MenuPage extends Page{
 		'Menu' => 'Menu'
 	);
 
+	private static $icon = 'shop_menu/images/menupage.png';
+
 	public function getCMSFields() {
 		$fields = parent::getCMSFields();
 		$fields->addFieldToTab("Root.Main",
