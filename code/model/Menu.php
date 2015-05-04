@@ -23,7 +23,12 @@ class Menu extends DataObject{
  	);
 
  	public function getCMSFields() {
- 		$fields = parent::getCMSFields();
+ 		//scaffold cms fields without calling 'updateCMSFields'
+ 		$fields = $this->scaffoldFormFields(array(
+			'includeRelations' => ($this->ID > 0),
+			'tabbed' => true,
+			'ajaxSafe' => true
+		));
  		if ($grid = $fields->fieldByName("Root.ProductSelections.ProductSelections")){
  			//move field to main tab
  			$fields->removeByName("ProductSelections");
@@ -74,8 +79,12 @@ class Menu extends DataObject{
 
 			$loader = $importer->getLoader($grid);
 			$self = $this;
+			$loader->mappableFields = array(
+				'Product.InternalItemID' => 'SKU / Product Identifier',
+				'Group.Title' => 'Group'
+			);
 			$loader->transforms = array(
-				"Product.Title" => array(
+				"Product.InternalItemID" => array(
 					"create" => false,
 					"link" => true,
 					"required" => true
@@ -85,7 +94,7 @@ class Menu extends DataObject{
 				)
 			);
 			$loader->duplicateChecks = array(
-				"Product.Title" => "Product.Title"
+				"Product.InternalItemID" => "Product.InternalItemID"
 			);
  		}
 
@@ -115,6 +124,7 @@ class Menu extends DataObject{
  				->removeComponentsByType("GridFieldDeleteAction")
 				->addComponent(new GridFieldDeleteAction());
  		}
+		$this->extend('updateCMSFields', $fields);
 
  		return $fields;
  	}
