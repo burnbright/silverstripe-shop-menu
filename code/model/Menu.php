@@ -129,6 +129,18 @@ class Menu extends DataObject{
  		return $fields;
  	}
 
+ 	/**
+ 	 * Get selections, sorted by menu groups
+ 	 */
+ 	public function GroupSortedSelections(){
+ 		return $this->ProductSelections()
+				->leftJoin("MenuGroup", "\"MenuProductSelection\".\"GroupID\" = \"MenuGroup\".\"ID\"")
+				->sort(array(
+					"\"MenuGroup\".\"Sort\"" => "ASC",
+					"\"MenuProductSelection\".\"Sort\"" => "ASC"
+				));
+ 	}
+
 }
 
 class MenuGroup extends DataObject{

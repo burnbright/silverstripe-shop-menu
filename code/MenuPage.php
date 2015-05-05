@@ -41,7 +41,7 @@ class MenuPage_Controller extends Page_Controller{
 	public function Form() {
 		$menu = $this->getProductMenu();
 		$selections = new ArrayList();
-		foreach($menu->ProductSelections() as $mps){
+		foreach($menu->GroupSortedSelections() as $mps){
 			if($mps->Product()->exists() && $mps->Product()->canPurchase()) {
 				$selections->push($mps);
 			}
